@@ -19,14 +19,18 @@ public class Tutorial {
     @Column
     private boolean published;
 
+    @Column
+    private String someText;
+
     public Tutorial() {
 
     }
 
-    public Tutorial(String title, String description, boolean published) {
+    public Tutorial(String title, String description, boolean published, String someText) {
         this.title = title;
         this.description = description;
         this.published = published;
+        this.someText = someText;
     }
 
     public long getId() {
@@ -56,6 +60,10 @@ public class Tutorial {
     public void setPublished(boolean isPublished) {
         this.published = isPublished;
     }
+
+    public String getSomeText() {return someText; }
+
+    public void setSomeText(String someText) {this.someText = someText ;}
 
     @Override
     public String toString() {
