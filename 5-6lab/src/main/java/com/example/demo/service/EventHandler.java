@@ -8,6 +8,8 @@ import org.springframework.context.event.EventListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.config.KafkaProducerConfig;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +19,8 @@ import java.util.Map;
 public class EventHandler {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
+
+//    private final kafkaTemplate1<String,String> kafkaTemplate1;
     private final NewTopic topic1;
 
     @EventListener
