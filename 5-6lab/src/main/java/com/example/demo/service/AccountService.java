@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.domain.dto.AccountCreateDTO;
 import com.example.demo.domain.event.AccountCreatedEvent;
+import com.example.demo.domain.event.AccountDeletedEvent;
+import com.example.demo.domain.event.AccountUpdatedEvent;
 import com.example.demo.domain.model.Result;
 import com.example.demo.domain.model.account.Account;
 import com.example.demo.repository.AccountRepository;
@@ -47,7 +49,7 @@ public class AccountService {
         return savedAccount;
     }
     public Result deleteAccount(long id) throws JsonProcessingException {
-        AccountCreatedEvent event = new AccountCreatedEvent();
+        AccountDeletedEvent event = new AccountDeletedEvent();
         event.setAggregateObjectId(Long.toString(id));
         ObjectMapper mapper = new ObjectMapper();
         Result result = new Result();
@@ -76,7 +78,7 @@ public class AccountService {
 
         Account savedAccount = accountRepository.save(updatedAccount);
 
-        AccountCreatedEvent event = new AccountCreatedEvent();
+        AccountUpdatedEvent event = new AccountUpdatedEvent();
         event.setEmittedDate(LocalDateTime.now());
         event.setAggregateObjectType("Account updated");
         event.setAggregateObjectId(String.valueOf(savedAccount.getId()));

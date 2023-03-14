@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.event.AccountCreatedEvent;
+import com.example.demo.domain.event.AccountDeletedEvent;
+import com.example.demo.domain.event.AccountUpdatedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -27,9 +29,33 @@ public class EventHandler {
     public void process(AccountCreatedEvent event) {
         Map<String,Integer> typePartition = new HashMap<String,Integer>();
         typePartition.put("Account created",0);
-        typePartition.put("Account updated",1);
+        log.info("event received: " + event);
+        kafkaTemplate.send(
+                topic1.name(),
+                typePartition.get(event.getAggregateObjectType()),
+                event.getAggregateObjectId(),
+                event.getAggregateObjectType()
+        );
+    }
+
+    @EventListener
+    public void process(AccountDeletedEvent event) {
+        Map<String,Integer> typePartition = new HashMap<String,Integer>();
         typePartition.put("Account deleted",2);
         typePartition.put("Account failed to be deleted",2);
+        log.info("event received: " + event);
+        kafkaTemplate.send(
+                topic1.name(),
+                typePartition.get(event.getAggregateObjectType()),
+                event.getAggregateObjectId(),
+                event.getAggregateObjectType()
+        );
+    }
+
+    @EventListener
+    public void process(AccountUpdatedEvent event) {
+        Map<String,Integer> typePartition = new HashMap<String,Integer>();
+        typePartition.put("Account updated",1);
         log.info("event received: " + event);
         kafkaTemplate.send(
                 topic1.name(),
